@@ -1,51 +1,57 @@
 import java.util.Random;
 
-public class KnapAlg {
+public class KnapAlg implements Runnable{
 	
-	private static int mutationRate = 10;
+	private int mutationRate = 10;
 	
-	private static ABox option;
+	private PackageBox option;
 	
-	private static TruckSpace storage;
+	private TruckSpace storage;
 
-	public static void main(String[] args) {
+	private float fillThreshold;
 
+	public KnapAlg(float fillThreshold){
+		this.fillThreshold = fillThreshold;
+	}
+
+	@Override
+	public void run() {
 		storage = new TruckSpace();
 
 		boolean place;
 		int type;
 		int rotation;
 		Random rand = new Random();
-		
+
 		int populationSize = 100;
 		int boxes = 85;
-		
-		ABox[] optionsUsed;
+
+		PackageBox[] optionsUsed;
 		TruckSpace[] population = new TruckSpace[populationSize];
-		
+
 		while(populationSize>0) {
 			storage = new TruckSpace();
-			
+
 			boxes = 85;
-			optionsUsed = new ABox[boxes];
-			
+			optionsUsed = new PackageBox[boxes];
+
 			while(boxes>0) {
 				place = true;
 				type = rand.nextInt(3);
 				rotation = rand.nextInt(6);
-				option = new ABox(type, rotation);
-				
+				option = new PackageBox(type, rotation);
+
 				//System.out.println(option.getLetter());
-				
+
 				for(int i=0; i<storage.getLatice().length; i++) {
 					for(int j=0; j<storage.getLatice()[i].length; j++) {
-						for(int k=0; k<storage.getLatice()[i][j].length; k++) { 
+						for(int k=0; k<storage.getLatice()[i][j].length; k++) {
 							if(option.fits(storage.getLatice(), k, j, i) && (place == true)) {
 								option.setX(k);
 								option.setY(j);
 								option.setZ(i);
 								option.insert(storage.getLatice());
-								
+
 								if(option.getLetter() == "A") {
 									storage.countA++;
 								}else if(option.getLetter() == "B") {
@@ -53,25 +59,25 @@ public class KnapAlg {
 								}else if(option.getLetter() == "C") {
 									storage.countC++;
 								}
-								
+
 								optionsUsed[optionsUsed.length - boxes] = option;
 								place = false;
 							}
 							System.out.print(storage.getLatice()[i][j][k]);
 						}
-					System.out.println();
+						System.out.println();
 					}
-				System.out.println();
+					System.out.println();
 				}
-				boxes--;	
-				
+				boxes--;
+
 			}
 			storage.setOptionsArray(optionsUsed);
 			population[population.length-(populationSize)] = storage;
 			populationSize--;
 		}
-		
-		
+
+
 		for(int i=0; i+1<population.length; i++) {
 			if(population[i] == null || population[i] == population [i+1]) {
 				System.out.println("debug: Problem");
@@ -81,13 +87,12 @@ public class KnapAlg {
 			}
 		}
 
-		
-		
-		algorithm(population);
 
+
+		algorithm(population);
 	}
 	
-	public static double truckFitness(TruckSpace storage) {
+	public double truckFitness(TruckSpace storage) {
 		//double maxFitness = storage.getVolume();
 		double currentFitness = 0;
 		
@@ -104,8 +109,8 @@ public class KnapAlg {
 		return currentFitness;
 	}
 	
-	public static TruckSpace crossover(TruckSpace t_1, TruckSpace t_2) {
-		ABox[] result = new ABox[t_1.getOptionsArray().length];
+	public TruckSpace crossover(TruckSpace t_1, TruckSpace t_2) {
+		PackageBox[] result = new PackageBox[t_1.getOptionsArray().length];
 		
 		Random rand = new Random();
 		
@@ -122,7 +127,7 @@ public class KnapAlg {
 		
 	}
 	
-	public static TruckSpace[] nextTrucks(TruckSpace[] population) {
+	public TruckSpace[] nextTrucks(TruckSpace[] population) {
 		TruckSpace[] nextGen = new TruckSpace[population.length];
 		int counter = 0;
 		
@@ -136,7 +141,7 @@ public class KnapAlg {
 			nextGen[i] = crossover(population[counter],population[counter+1]);
 		}
 		
-		ABox currentBox;
+		PackageBox currentBox;
 		boolean place;
 		for(int n=0; n<nextGen.length; n++) {
 			if(nextGen[n]==null) {
@@ -177,22 +182,22 @@ public class KnapAlg {
 	}
 	
 	
-	public static TruckSpace mutate(TruckSpace storage) {
+	public TruckSpace mutate(TruckSpace storage) {
 		Random rand = new Random();
 		int randomType = rand.nextInt(3);
 		int randomRotation =  rand.nextInt(6);
-		ABox[] optionsArray = storage.getOptionsArray();
+		PackageBox[] optionsArray = storage.getOptionsArray();
 		
 		//If the random integer is in the mutation range it will change a random chromosome 
 		for (int i=0; i<optionsArray.length; i++) {
 			if (rand.nextInt(100)<=mutationRate) {
-				optionsArray[i] = new ABox(randomType, randomRotation);
+				optionsArray[i] = new PackageBox(randomType, randomRotation);
 			}
 		}
 		return storage;
 	}
 	
-	public static double getFittest(TruckSpace[] population) {
+	public double getFittest(TruckSpace[] population) {
 		
 		//Rate the population's fitness, sort and return top (since it will have to highest fitness from HeapSort)
 		for (int i=0; i<population.length; i++) {
@@ -203,7 +208,7 @@ public class KnapAlg {
 	}
 	
 	
-	public static void algorithm(TruckSpace[] population) {
+	public void algorithm(TruckSpace[] population) {
 		int iterations = 0;
 		//int counter = 0;
 		

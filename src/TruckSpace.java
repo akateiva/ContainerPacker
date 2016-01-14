@@ -18,8 +18,8 @@ public class TruckSpace {
 	private int height;
 	private int length;
 	double fitness;
-	ABox[] optionsUsed;
-	APentomino[] pentOptionsUsed;
+	PackageBox[] optionsUsed;
+	PackagePentomino[] pentOptionsUsed;
 	
 	private int[][][] latice;
 	
@@ -31,17 +31,17 @@ public class TruckSpace {
 		this.fitness = fitness;
 	}
 	
-	public ABox[] getOptionsArray() {
+	public PackageBox[] getOptionsArray() {
 		return optionsUsed;
 	}
-	public APentomino[] getPentOptionsArray() {
+	public PackagePentomino[] getPentOptionsArray() {
 		return pentOptionsUsed;
 	}
 	
-	public void setOptionsArray(ABox[] optionsUsed) {
+	public void setOptionsArray(PackageBox[] optionsUsed) {
 		this.optionsUsed = optionsUsed;
 	}
-	public void setPentOptionsArray(APentomino[] optionsUsed) {
+	public void setPentOptionsArray(PackagePentomino[] optionsUsed) {
 		this.pentOptionsUsed = optionsUsed;
 	}
 	
@@ -83,10 +83,5 @@ public class TruckSpace {
 	public void setLatice(int[][][] latice) {
 		this.latice = latice;
 	}
-	
-	public void draw(Graphics g) {
-		Graphics2D g2 = (Graphics2D)g;
-		Rectangle2D.Double area = new Rectangle2D.Double(xp,yp,width,height);
-		g2.draw(area);
-	}
+
 }

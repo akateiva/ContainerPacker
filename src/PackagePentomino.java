@@ -1,5 +1,5 @@
 
-public class APentomino {
+public class PackagePentomino {
 	private int xp;
 	private int yp;
 	private int zp;
@@ -16,7 +16,7 @@ public class APentomino {
 	
 	private int[][][] latice;
 	
-	public APentomino(int type){
+	public PackagePentomino(int type){
 		
 		switch(type) {
 		case 0:

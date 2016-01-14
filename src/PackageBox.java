@@ -1,5 +1,5 @@
 
-public class ABox {
+public class PackageBox {
 	private int xp;
 	private int yp;
 	private int zp;
@@ -12,7 +12,7 @@ public class ABox {
 	
 	private int[][][] latice;
 	
-	public ABox(int type, int rotation){
+	public PackageBox(int type, int rotation){
 		
 		switch(type) {
 		case 0:
