@@ -3,8 +3,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 
-public class ContainerPacker extends JDialog {
+public class ContainerPacker extends JFrame {
     private JPanel contentPane;
     private JSlider slider1;
     private JRadioButton boxesRadioButton;
@@ -15,7 +16,6 @@ public class ContainerPacker extends JDialog {
 
     public ContainerPacker() {
         setContentPane(contentPane);
-        setModal(true);
         getRootPane().setDefaultButton(STARTButton);
         slider1.addChangeListener(new ChangeListener() {
             @Override
@@ -36,15 +36,12 @@ public class ContainerPacker extends JDialog {
                     Thread algorithmThread = new Thread(new KnapAlgPent(slider1.getValue()));
                     algorithmThread.start();
                 }
+
                 STARTButton.setText("RUNNING...");
                 STARTButton.setEnabled(false);
+                ContainerPacker.this.dispatchEvent(new WindowEvent(
+                        ContainerPacker.this, WindowEvent.WINDOW_CLOSING));
             }
         });
-    }
-    public static void main(String[] args) {
-        ContainerPacker dialog = new ContainerPacker();
-        dialog.pack();
-        dialog.setVisible(true);
-        System.exit(0);
     }
 }

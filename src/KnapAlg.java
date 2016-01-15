@@ -63,11 +63,11 @@ public class KnapAlg implements Runnable{
 								optionsUsed[optionsUsed.length - boxes] = option;
 								place = false;
 							}
-							System.out.print(storage.getLatice()[i][j][k]);
+							//System.out.print(storage.getLatice()[i][j][k]);
 						}
-						System.out.println();
+						//System.out.println();
 					}
-					System.out.println();
+					//System.out.println();
 				}
 				boxes--;
 
@@ -222,7 +222,7 @@ public class KnapAlg implements Runnable{
 			//System.out.println("Maximum Volume: " + storage.getVolume());
 			//System.out.println("debug: Value of first box used in first truck: " + population[0].getOptionsArray()[0].getValue());
 			//System.out.println("debug: Composition of first truck: ");
-			
+
 			System.out.println("Iteration number: " + iterations);
 			System.out.println("A: " + population[0].countA + " B: " + population[0].countB + " C: " + population[0].countC);
 			System.out.println("FITTEST: " + getFittest(population));

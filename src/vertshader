@@ -1,0 +1,7 @@
+attribute vec3 vertexPosition;
+
+uniform mat4 gl_Projection;
+
+void main(){
+    gl_Position = gl_Projection * vec4(vertexPosition.x, vertexPosition.y, vertexPosition.z, 1.0);
+}
