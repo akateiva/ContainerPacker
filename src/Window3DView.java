@@ -230,7 +230,7 @@ public class Window3DView{
         while ( glfwWindowShouldClose(window) == GLFW_FALSE ) {
             shaderProgram.bind();
 
-            glViewport(0, 0, WIDTH*2, HEIGHT*2);
+            glViewport(0, 0, WIDTH, HEIGHT);
 
             FloatBuffer fb = BufferUtils.createFloatBuffer(16);
             projectionMatrix.setPerspective((float)Math.toRadians(90), WIDTH/HEIGHT, 0.1f, 100).get(fb);
