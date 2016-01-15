@@ -5,6 +5,9 @@ import org.lwjgl.opengl.*;
 import org.joml.*;
 
 import java.nio.FloatBuffer;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -29,7 +32,7 @@ public class Window3DView{
     static private int[][][] CONTAINER_LATTICE = {};
 
     //Camera information
-    static private Vector3f CAMERA_POS = new Vector3f(5,5,5); //Coordinates of the camera view target
+    static private Vector3f CAMERA_POS = new Vector3f(0,0,0); //Coordinates of the camera view target
     static private Vector2f CAMERA_ROT = new Vector2f(); //Angles for the camera ( YAW, PITCH )
     static private Vector3f CAMERA_FORWARD =  new Vector3f(); //Direction vector
 
@@ -44,8 +47,50 @@ public class Window3DView{
     static Matrix4f viewMatrix = new Matrix4f();
     static Matrix4f projectionMatrix = new Matrix4f();
 
+    //Hacks and unelegant workarounds for OS X compatibility
+    static boolean scalefix = false;
+    static int threshold = 60;
+
     public static void main(String[] args) {
-        run();
+        try {
+            init();
+
+            Set<String> args_set = new HashSet<>(Arrays.asList(args));
+
+            //Check for no-ui mode. Because GLFW and AWT/Swing doesn't play nice together on OS X, I had to include a no-ui mode
+            if(args_set.contains("no-ui")){
+                //Another hack/fix for OS X devices with Retina screens
+                if(args_set.contains("scalefix")){
+                    scalefix = true;
+                }
+
+                for(int i = 0; i < args.length; i++){
+                    if(args[i].regionMatches(true, 0, "threshold-", 0, 10)){
+                        threshold = Integer.parseInt(args[i].substring(10));
+                    }
+                }
+
+                if(args_set.contains("pentomino")) {
+                    Thread algorithmThread = new Thread(new KnapAlgPent(threshold));
+                    algorithmThread.start();
+                }else{
+                    Thread algorithmThread = new Thread(new KnapAlg(threshold));
+                    algorithmThread.start();
+
+                }
+            }else{
+                initSwing();
+            }
+
+            loop();
+
+            glfwDestroyWindow(window);
+            keyCallback.release();
+            mouseCallback.release();
+        } finally {
+            glfwTerminate();
+            errorCallback.release();
+        }
     }
 
     public static void setLattice(int[][][] lattice){
@@ -107,21 +152,6 @@ public class Window3DView{
                 dialog.setVisible(true);
             }
         }).start();
-    }
-
-    public static void run() {
-        try {
-            init();
-            initSwing();
-            loop();
-
-            glfwDestroyWindow(window);
-            keyCallback.release();
-            mouseCallback.release();
-        } finally {
-            glfwTerminate();
-            errorCallback.release();
-        }
     }
 
     private static void init() {
@@ -230,7 +260,12 @@ public class Window3DView{
         while ( glfwWindowShouldClose(window) == GLFW_FALSE ) {
             shaderProgram.bind();
 
-            glViewport(0, 0, WIDTH, HEIGHT);
+            if(scalefix){
+                glViewport(0, 0, WIDTH*2, HEIGHT*2);
+            }else{
+                glViewport(0, 0, WIDTH, HEIGHT);
+            }
+
 
             FloatBuffer fb = BufferUtils.createFloatBuffer(16);
             projectionMatrix.setPerspective((float)Math.toRadians(90), WIDTH/HEIGHT, 0.1f, 100).get(fb);
