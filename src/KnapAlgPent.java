@@ -248,6 +248,10 @@ public class KnapAlgPent implements Runnable {
 			
 			HeapSort.sort(population);
 
+			if(getFittest(population)/(storage.getVolume())*100 >= fillThreshold){
+				Window3DView.setLattice(population[0].getLatice());
+				break;
+			}
 			
 		} 
 	} 
