@@ -82,24 +82,23 @@ public class Window3DView{
                     //Sets an algorithm parameter ( will automatically start an algorithm and skip the Swing dialog )
                     case "-a":
                         if(i < args.length - 2){
-                            PARAM_NO_UI = true;
                             algParameters.put(args[i+1].toLowerCase(), args[i+2].toLowerCase());
                             i+=2;
                         }
                         break;
                     default:
-                        System.out.printf("Unkown parameter %s !!!\n", args[i]);
+                        System.out.printf("Unknown parameter %s !!!\n", args[i]);
                 }
             }
-
-            if(!PARAM_NO_UI) {
-                initSwing();
-                System.out.println("Warning : Algorithm parameters ( -a ) were set but will be ignored, because the program was started with the UI. If you want to launch an algorithm directly please add -no-swing program parameter!");
-            }else{
+            if(PARAM_NO_UI) {
                 startAlgorithm(algParameters);
+            }else{
+                initSwing();
+                if(algParameters.size() > 0)
+                    System.out.println("Warning : Algorithm parameters ( -a ) were set but will be ignored, because the program was started with the UI. If you want to launch an algorithm directly please add -no-swing program parameter!");
             }
 
-            if(!PARAM_NO_GLFW) {
+            if(PARAM_NO_GLFW == false) {
                 init();
                 loop();
                 glfwDestroyWindow(window);
@@ -107,7 +106,7 @@ public class Window3DView{
                 mouseCallback.release();
             }
         } finally {
-            if(!PARAM_NO_GLFW) {
+            if(PARAM_NO_GLFW == false) {
                 glfwTerminate();
                 errorCallback.release();
             }
@@ -121,9 +120,6 @@ public class Window3DView{
         int POPULATION_SIZE = Integer.parseInt(algParameters.getOrDefault("population_size", "100").toString());
         int MUTATION_RATE = Integer.parseInt(algParameters.getOrDefault("mutation_rate", "1").toString());
         int THRESHOLD = Integer.parseInt(algParameters.getOrDefault("threshold", "85").toString());
-
-        System.out.println(POPULATION_SIZE);
-        System.out.println(THRESHOLD);
 
         if(algParameters.containsKey("pentomino")){
             new Thread(new KnapAlgPent(POPULATION_SIZE, MUTATION_RATE, THRESHOLD)).start();
@@ -187,11 +183,11 @@ public class Window3DView{
      */
     private static void drawFloorGrid(){
         glBegin(GL_LINES);
-        for(int i=-10;i<=10;i++) {
-            glVertex3f(i,-10,0);
-            glVertex3f(i,10,0);
-            glVertex3f(-10,i,0);
-            glVertex3f(10,i,0);
+        for(int i=-20;i<=20;i++) {
+            glVertex3f(i,-20,0);
+            glVertex3f(i,20,0);
+            glVertex3f(-20,i,0);
+            glVertex3f(20,i,0);
         };
         glEnd();
     }
@@ -208,6 +204,7 @@ public class Window3DView{
                 dialog.setVisible(true);
             }
         }).start();
+
     }
 
     /**
