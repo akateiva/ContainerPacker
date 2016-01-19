@@ -244,7 +244,7 @@ public class KnapAlgPent implements Runnable{
 			System.out.println("Iteration number: " + iterations);
 			System.out.println("L: " + population[0].countL + " P: " + population[0].countP + " T: " + population[0].countT);
 			System.out.println("Net Value: " + (population[0].countL*3 + population[0].countP*4 + population[0].countT*5));
-			System.out.println("FITTEST: " + getFittest(population));
+			//System.out.println("FITTEST: " + getFittest(population));
 			System.out.println("Percentage of truck full: " + getFittest(population)/(storage.getVolume())*100);
 			System.out.println("---------------------------------------");
 

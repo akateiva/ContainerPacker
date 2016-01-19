@@ -248,8 +248,8 @@ public class KnapAlg implements Runnable{
 			
 			System.out.println("Iteration number: " + iterations);
 			System.out.println("A: " + population[0].countA + " B: " + population[0].countB + " C: " + population[0].countC);
-			System.out.println("FITTEST: " + getFittest(population));
-			//System.out.println("Net Value: " + (population[0].countA*3 + population[0].countB*4 + population[0].countC*5));
+			//System.out.println("FITTEST: " + getFittest(population));
+			System.out.println("Net Value: " + (population[0].countA*3 + population[0].countB*4 + population[0].countC*5));
 			System.out.println("Percentage of truck full: " + getFittest(population)/(storage.getVolume())*100);
 			System.out.println("---------------------------------------");
 			
