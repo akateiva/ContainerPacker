@@ -1,5 +1,8 @@
 package UI;
 
+import algorithms.KnapAlg;
+import algorithms.KnapAlgPent;
+
 import org.lwjgl.*;
 
 import org.lwjgl.glfw.*;
@@ -91,6 +94,7 @@ public class Window3DView{
 
             if(!PARAM_NO_UI) {
                 initSwing();
+                System.out.println("Warning : Algorithm parameters ( -a ) were set but will be ignored, because the program was started with the UI. If you want to launch an algorithm directly please add -no-swing program parameter!");
             }else{
                 startAlgorithm(algParameters);
             }
@@ -110,6 +114,9 @@ public class Window3DView{
         }
     }
 
+    public static void DEBUG_PRINT_ALG_PARAMETERS(Hashtable algParameters){
+        System.out.println(algParameters.toString());
+    }
     public static void startAlgorithm(Hashtable algParameters){
         int POPULATION_SIZE = Integer.parseInt(algParameters.getOrDefault("population_size", "100").toString());
         int MUTATION_RATE = Integer.parseInt(algParameters.getOrDefault("mutation_rate", "1").toString());
@@ -117,12 +124,11 @@ public class Window3DView{
 
         System.out.println(POPULATION_SIZE);
         System.out.println(THRESHOLD);
+
         if(algParameters.containsKey("pentomino")){
-            //Start the algorithms.KnapAlgPent
-
+            new Thread(new KnapAlgPent(POPULATION_SIZE, MUTATION_RATE, THRESHOLD)).start();
         }else{
-            //Start the algorithms.KnapAlg
-
+            new Thread(new KnapAlg(POPULATION_SIZE, MUTATION_RATE, THRESHOLD)).start();
         }
     }
 

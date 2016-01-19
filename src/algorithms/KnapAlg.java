@@ -2,25 +2,32 @@ package algorithms;
 
 import java.util.Random;
 
-public class KnapAlg {
+public class KnapAlg implements Runnable{
 	
-	private static int mutationRate = 10;
-	
-	private static PackageBox option;
-	
-	private static TruckSpace storage;
+	private int mutationRate = 10;
+	private int populationSize = 100;
+	private int threshold = 0;
 
-	public static void main(String[] args) {
+	private PackageBox option;
+	private TruckSpace storage;
+	private int valueA = 3;
+	private int valueB = 4;
+	private int valueC = 5;
+	private boolean place;
+	private int type;
+	private int rotation;
+	private Random rand = new Random();
+	private int boxes = 85;
+
+	public KnapAlg(int populationSize, int mutationRate, int threshold) {
+		this.populationSize = populationSize;
+		this.mutationRate = mutationRate;
+		this.threshold = threshold;
+	}
+
+	public void run() {
 
 		storage = new TruckSpace();
-
-		boolean place;
-		int type;
-		int rotation;
-		Random rand = new Random();
-		
-		int populationSize = 100;
-		int boxes = 85;
 		
 		PackageBox[] optionsUsed;
 		TruckSpace[] population = new TruckSpace[populationSize];
@@ -89,7 +96,7 @@ public class KnapAlg {
 
 	}
 	
-	public static double truckFitnessVolume(TruckSpace storage) {
+	public double truckFitnessVolume(TruckSpace storage) {
 		//double maxFitness = storage.getVolume();
 		double currentFitness = 0;
 		
@@ -108,7 +115,7 @@ public class KnapAlg {
 	
 	
 	
-	public static TruckSpace crossover(TruckSpace t_1, TruckSpace t_2) {
+	public TruckSpace crossover(TruckSpace t_1, TruckSpace t_2) {
 		PackageBox[] result = new PackageBox[t_1.getOptionsArray().length];
 		
 		Random rand = new Random();
@@ -126,7 +133,7 @@ public class KnapAlg {
 		
 	}
 	
-	public static TruckSpace[] nextTrucks(TruckSpace[] population) {
+	public TruckSpace[] nextTrucks(TruckSpace[] population) {
 		TruckSpace[] nextGen = new TruckSpace[population.length];
 		int counter = 0;
 		
@@ -181,7 +188,7 @@ public class KnapAlg {
 	}
 	
 	
-	public static TruckSpace mutate(TruckSpace storage) {
+	public TruckSpace mutate(TruckSpace storage) {
 		Random rand = new Random();
 		int randomType = rand.nextInt(3);
 		int randomRotation =  rand.nextInt(6);
@@ -196,7 +203,7 @@ public class KnapAlg {
 		return storage;
 	}
 	
-	public static double getFittest(TruckSpace[] population) {
+	public double getFittest(TruckSpace[] population) {
 		
 		//Rate the population's fitness, sort and return top (since it will have to highest fitness from algorithms.HeapSort)
 		for (int i=0; i<population.length; i++) {
@@ -207,7 +214,7 @@ public class KnapAlg {
 	}
 	
 	
-	public static void algorithm(TruckSpace[] population) {
+	public void algorithm(TruckSpace[] population) {
 		int iterations = 0;
 		//int counter = 0;
 		
@@ -242,12 +249,9 @@ public class KnapAlg {
 			
 		}
 	}
+
 	
-	private static int valueA = 3;
-	private static int valueB = 4;
-	private static int valueC = 5;
-	
-	public static double truckFitnessValue(TruckSpace storage) {
+	public double truckFitnessValue(TruckSpace storage) {
 		double netValue = storage.countA*valueA + storage.countB*valueB + storage.countC*valueC;
 		storage.setFitness(netValue);
 		return netValue;

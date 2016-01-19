@@ -1,4 +1,6 @@
-package UI; /**
+package UI;
+
+/**
  * Created by akateiva on 06/01/16.
  */
 
