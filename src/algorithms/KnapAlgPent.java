@@ -2,6 +2,8 @@ package algorithms;
 
 import java.util.Random;
 
+import UI.Window3DView;
+
 public class KnapAlgPent implements Runnable{
 	
 	private int mutationRate = 10;
@@ -256,9 +258,13 @@ public class KnapAlgPent implements Runnable{
 			//System.out.println("Maximum Volume: " + storage.getVolume());
 			//System.out.println("debug: Value of first box used in first truck: " + population[0].getOptionsArray()[0].getValue());
 			//System.out.println("debug: Composition of first truck: ");
+			if (getFittest(population)/(storage.getVolume())*100 > threshold) {
+				break;
+			}
 
+		}
+		Window3DView.setLattice(population[0].getLatice());
 
-		} 
 	}
 	
 	public double truckFitnessValue(TruckSpace storage) {
