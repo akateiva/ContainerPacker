@@ -2,6 +2,8 @@ package algorithms;
 
 import java.util.Random;
 
+import UI.Window3DView;
+
 public class KnapAlg implements Runnable{
 	
 	private int mutationRate = 10;
@@ -251,9 +253,13 @@ public class KnapAlg implements Runnable{
 			System.out.println("Percentage of truck full: " + getFittest(population)/(storage.getVolume())*100);
 			System.out.println("---------------------------------------");
 			
+			if (getFittest(population)/(storage.getVolume())*100 > threshold) {
+				break;
+			}
 
 			
 		}
+		Window3DView.setLattice(population[0].getLatice());
 	}
 
 	
