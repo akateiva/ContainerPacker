@@ -4,6 +4,11 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="dependencies/JOML/src"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/JOML"/>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/lwjgl"/>
+	<classpathentry kind="lib" path="dependencies/lwjgl/jar/lwjgl.jar" sourcepath="dependencies/lwjgl/src.zip">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/Users/akateiva/work/ContainerPacker/dependencies/lwjgl/doc"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="ContainerPacker/dependencies/lwjgl/native"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="out/production/ContainerPacker"/>
 </classpath>

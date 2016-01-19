@@ -3,8 +3,13 @@
 	<output-test url="file://$MODULE_DIR$/out/test/ContainerPacker"/>
 	<exclude-output/>
 	<contentEntry url="file://$MODULE_DIR$"/>
+	<lib name="lwjgl.jar" scope="COMPILE">
+		<srcroot url="jar://$MODULE_DIR$/dependencies/lwjgl/src.zip!/"/>
+		<relative-module-src project-related="jar://$PROJECT_DIR$/dependencies/lwjgl/src.zip!/"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/dependencies/lwjgl/jar/lwjgl.jar!/"/>
+		<relative-module-javadoc project-related="file://$PROJECT_DIR$/dependencies/lwjgl/doc"/>
+	</lib>
 	<levels>
 		<level name="JOML" value="project"/>
-		<level name="lwjgl" value="project"/>
 	</levels>
 </component>
