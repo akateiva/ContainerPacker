@@ -11,5 +11,6 @@
 	</lib>
 	<levels>
 		<level name="JOML" value="project"/>
+		<level name="forms_rt" value="project"/>
 	</levels>
 </component>

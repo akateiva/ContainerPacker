@@ -10,5 +10,6 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="ContainerPacker/dependencies/lwjgl/native"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/forms_rt"/>
 	<classpathentry kind="output" path="out/production/ContainerPacker"/>
 </classpath>
