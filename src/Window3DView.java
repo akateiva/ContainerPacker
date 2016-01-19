@@ -1,3 +1,4 @@
+import com.sun.org.apache.bcel.internal.generic.POP;
 import org.lwjgl.*;
 
 import org.lwjgl.glfw.*;
@@ -5,9 +6,7 @@ import org.lwjgl.opengl.*;
 import org.joml.*;
 
 import java.nio.FloatBuffer;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Hashtable;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -26,9 +25,9 @@ public class Window3DView{
     static private int HEIGHT = 600;
 
     //Container dimensions in # of cells
-    static private int CONTAINER_WIDTH = 3;
-    static private int CONTAINER_HEIGHT = 3;
-    static private int CONTAINER_LENGHTH = 6;
+    static private int CONTAINER_WIDTH = 5;
+    static private int CONTAINER_HEIGHT = 8;
+    static private int CONTAINER_LENGTH = 33;
     static private int[][][] CONTAINER_LATTICE = {};
 
     //Camera information
@@ -48,55 +47,98 @@ public class Window3DView{
     static Matrix4f projectionMatrix = new Matrix4f();
 
     //Hacks and unelegant workarounds for OS X compatibility
-    static boolean scalefix = false;
-    static int threshold = 60;
+    static boolean PARAM_NO_UI = false;
+    static boolean PARAM_NO_GLFW = false;
+    static boolean PARAM_SCALEFIX = false;
 
+    /**
+     * main
+     * @param args
+     */
     public static void main(String[] args) {
+        Hashtable algParameters = new Hashtable();
         try {
-            init();
 
-            Set<String> args_set = new HashSet<>(Arrays.asList(args));
-
-            //Check for no-ui mode. Because GLFW and AWT/Swing doesn't play nice together on OS X, I had to include a no-ui mode
-            if(args_set.contains("no-ui")){
-                //Another hack/fix for OS X devices with Retina screens
-                if(args_set.contains("scalefix")){
-                    scalefix = true;
+            //Iterate through the command-line arguments
+            for(int i = 0; i < args.length; i++){
+                switch(args[i].toLowerCase()){
+                    //The SCALEFIX parameter fixes viewport scaling issue for Retina screens
+                    case "-scalefix":
+                        PARAM_SCALEFIX = true;
+                        break;
+                    //The -no-swing parameter will start the application without the Swing dialog
+                    //(because Swing and GLFW doesn't work together on OS X)
+                    case "-no-swing":
+                        PARAM_NO_UI = true;
+                        break;
+                    //Start the program without a GLFW window
+                    case "-no-glfw":
+                        PARAM_NO_GLFW = true;
+                        break;
+                    //Sets an algorithm parameter ( will automatically start an algorithm and skip the Swing dialog )
+                    case "-a":
+                        if(i < args.length - 2){
+                            PARAM_NO_UI = true;
+                            algParameters.put(args[i+1].toLowerCase(), args[i+2].toLowerCase());
+                            i+=2;
+                        }
+                        break;
+                    default:
+                        System.out.printf("Unkown parameter %s !!!\n", args[i]);
                 }
-
-                for(int i = 0; i < args.length; i++){
-                    if(args[i].regionMatches(true, 0, "threshold-", 0, 10)){
-                        threshold = Integer.parseInt(args[i].substring(10));
-                    }
-                }
-
-                if(args_set.contains("pentomino")) {
-                    Thread algorithmThread = new Thread(new KnapAlgPent(threshold));
-                    algorithmThread.start();
-                }else{
-                    Thread algorithmThread = new Thread(new KnapAlg(threshold));
-                    algorithmThread.start();
-
-                }
-            }else{
-                initSwing();
             }
 
-            loop();
+            if(!PARAM_NO_UI) {
+                initSwing();
+            }else{
+                startAlgorithm(algParameters);
+            }
 
-            glfwDestroyWindow(window);
-            keyCallback.release();
-            mouseCallback.release();
+            if(!PARAM_NO_GLFW) {
+                init();
+                loop();
+                glfwDestroyWindow(window);
+                keyCallback.release();
+                mouseCallback.release();
+            }
         } finally {
-            glfwTerminate();
-            errorCallback.release();
+            if(!PARAM_NO_GLFW) {
+                glfwTerminate();
+                errorCallback.release();
+            }
         }
     }
 
+    public static void startAlgorithm(Hashtable algParameters){
+        int POPULATION_SIZE = Integer.parseInt(algParameters.getOrDefault("population_size", "100").toString());
+        int MUTATION_RATE = Integer.parseInt(algParameters.getOrDefault("mutation_rate", "1").toString());
+        int THRESHOLD = Integer.parseInt(algParameters.getOrDefault("threshold", "85").toString());
+
+        System.out.println(POPULATION_SIZE);
+        System.out.println(THRESHOLD);
+        if(algParameters.containsKey("pentomino")){
+            //Start the KnapAlgPent
+
+        }else{
+            //Start the KnapAlg
+
+        }
+    }
+
+    /**
+     * Store a lattice (int[][]) that will be drawn on screen
+     * @param lattice
+     */
     public static void setLattice(int[][][] lattice){
         CONTAINER_LATTICE = lattice;
     }
 
+    /**
+     * Draw a cube on the screen at a position.
+     * @param x
+     * @param y
+     * @param z
+     */
     private static void drawCube(float x, float y, float z){
         //Save the current matrix, because we will be translating the cubes
         glPushMatrix();
@@ -133,6 +175,9 @@ public class Window3DView{
         glPopMatrix();
     }
 
+    /**
+     * Draw the floor grid
+     */
     private static void drawFloorGrid(){
         glBegin(GL_LINES);
         for(int i=-10;i<=10;i++) {
@@ -143,6 +188,10 @@ public class Window3DView{
         };
         glEnd();
     }
+
+    /**
+     * Start the Swing UI
+     */
     private static void initSwing(){
         new Thread( new Runnable() {
             @Override
@@ -154,6 +203,9 @@ public class Window3DView{
         }).start();
     }
 
+    /**
+     * Initialize GLFW
+     */
     private static void init() {
         glfwSetErrorCallback(errorCallback = GLFWErrorCallback.createPrint(System.err));
 
@@ -241,6 +293,9 @@ public class Window3DView{
 
     }
 
+    /**
+     * Window3DView thread loop
+     */
     private static void loop() {
         GL.createCapabilities();
 
@@ -260,7 +315,7 @@ public class Window3DView{
         while ( glfwWindowShouldClose(window) == GLFW_FALSE ) {
             shaderProgram.bind();
 
-            if(scalefix){
+            if(PARAM_SCALEFIX){
                 glViewport(0, 0, WIDTH*2, HEIGHT*2);
             }else{
                 glViewport(0, 0, WIDTH, HEIGHT);
@@ -304,7 +359,7 @@ public class Window3DView{
                         if(CONTAINER_LATTICE[i][j][k] != 0){
                             //NOTE: Kamil's algorithm operates in a different spatial axis arrangement
                             //therefore Y and Z axles have to be swapped
-                            drawCube(i, k, j);
+                            drawCube(i - (CONTAINER_WIDTH/2), k - (CONTAINER_LENGTH/2), j);
                         }
                     }
                 }

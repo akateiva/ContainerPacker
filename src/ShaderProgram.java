@@ -6,11 +6,19 @@ import java.nio.file.*;
 
 import static org.lwjgl.opengl.GL20.*;
 
+/**
+ * A helper class that stores the shader program, vertex shader and fragment shader in one place.
+ */
 public class ShaderProgram {
     private int programID;
     private int vertID;
     private int fragID;
 
+    /**
+     * Construct a shader program with given vertex and fragment shaders
+     * @param vertPath
+     * @param fragPath
+     */
     ShaderProgram(String vertPath, String fragPath){
         programID = glCreateProgram();
         String vertSource = "attribute vec3 vertexPosition;\n" +
@@ -45,9 +53,17 @@ public class ShaderProgram {
         glLinkProgram(programID);
     }
 
+    /**
+     * Return the shader program ID
+     * @return int id
+     */
     public int getID(){
         return programID;
     }
+
+    /**
+     * Start using the shader program
+     */
     public void bind(){
         glUseProgram(programID);
     }
