@@ -1,3 +1,5 @@
+package UI;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -29,12 +31,12 @@ public class ContainerPacker extends JFrame {
                 if (boxesRadioButton.isSelected()) {
                     //Start the BOXES part
                     //Create a new thread in which the algorithm will run, because it's nicer if the UI doesn't freeze while its running
+                    /*
                     Thread algorithmThread = new Thread(new KnapAlg(slider1.getValue()));
                     algorithmThread.start();
+                    */
                 } else if (pentominoSRadioButton.isSelected()) {
-                    //Start the PENTOMINO
-                    Thread algorithmThread = new Thread(new KnapAlgPent(slider1.getValue()));
-                    algorithmThread.start();
+
                 }
 
                 STARTButton.setText("RUNNING...");

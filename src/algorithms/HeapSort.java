@@ -1,4 +1,4 @@
-/*
+package algorithms;/*
  * @(#)HeapSortAlgorithm.java   1.0 95/06/23 Jason Harrison
  *
  * Copyright (c) 1995 University of British Columbia

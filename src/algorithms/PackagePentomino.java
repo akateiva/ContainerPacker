@@ -1,3 +1,4 @@
+package algorithms;
 
 public class PackagePentomino {
 	private int xp;
@@ -434,7 +435,6 @@ public class PackagePentomino {
 				}	
 			}
 			latice[k] = tmp;
-
 		}	
 	}	
 }

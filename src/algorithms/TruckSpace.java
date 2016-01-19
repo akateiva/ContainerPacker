@@ -1,3 +1,5 @@
+package algorithms;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
@@ -48,7 +50,7 @@ public class TruckSpace {
 	public TruckSpace() {
 		xp = 100;
 		yp = 100;
-		length = 33;
+		length = 11;
 		width = 5;
 		height = 8;
 		
@@ -83,5 +85,10 @@ public class TruckSpace {
 	public void setLatice(int[][][] latice) {
 		this.latice = latice;
 	}
-
+	
+	public void draw(Graphics g) {
+		Graphics2D g2 = (Graphics2D)g;
+		Rectangle2D.Double area = new Rectangle2D.Double(xp,yp,width,height);
+		g2.draw(area);
+	}
 }

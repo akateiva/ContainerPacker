@@ -1,22 +1,16 @@
+package algorithms;
 
 import java.util.Random;
 
-public class KnapAlgPent implements Runnable {
+public class KnapAlgPent {
 	
-	private int mutationRate = 10;
+	private static int mutationRate = 10;
 	
-	private PackagePentomino option;
+	private static PackagePentomino option;
 	
-	private TruckSpace storage;
+	private static TruckSpace storage;
 
-	private float fillThreshold;
-
-	public KnapAlgPent(float fillThreshold){
-		this.fillThreshold = fillThreshold;
-	}
-
-	@Override
-	public void run() {
+	public static void main(String[] args) {
 
 		storage = new TruckSpace();
 
@@ -24,7 +18,7 @@ public class KnapAlgPent implements Runnable {
 		int type;
 		int rotation;
 		Random rand = new Random();
-		int populationSize = 50;
+		int populationSize = 40;
 		int boxes;
 		PackagePentomino[] optionsUsed;
 		TruckSpace[] population = new TruckSpace[populationSize];
@@ -70,11 +64,11 @@ public class KnapAlgPent implements Runnable {
 								place = false;
 								
 							}
-							System.out.print(storage.getLatice()[i][j][k]);
+							//System.out.print(storage.getLatice()[i][j][k]);
 						}
-					System.out.println();
+					//System.out.println();
 					}
-				System.out.println();
+				//System.out.println();
 				}
 				boxes--;	
 				
@@ -100,7 +94,7 @@ public class KnapAlgPent implements Runnable {
 
 	}
 	
-	public double truckFitness(TruckSpace storage) {
+	public static double truckFitness(TruckSpace storage) {
 		//double maxFitness = storage.getVolume();
 		double currentFitness = 0;
 		
@@ -118,7 +112,7 @@ public class KnapAlgPent implements Runnable {
 		
 	}
 	
-	public TruckSpace crossover(TruckSpace t_1, TruckSpace t_2) {
+	public static TruckSpace crossover(TruckSpace t_1, TruckSpace t_2) {
 		PackagePentomino[] result = new PackagePentomino[t_1.getPentOptionsArray().length];
 		
 		Random rand = new Random();
@@ -136,7 +130,7 @@ public class KnapAlgPent implements Runnable {
 		
 	}
 	
-	public TruckSpace[] nextTrucks(TruckSpace[] population) {
+	public static TruckSpace[] nextTrucks(TruckSpace[] population) {
 		TruckSpace[] nextGen = new TruckSpace[population.length];
 		int counter = 0;
 		
@@ -191,7 +185,7 @@ public class KnapAlgPent implements Runnable {
 	}
 	
 	
-	public TruckSpace mutate(TruckSpace storage) {
+	public static TruckSpace mutate(TruckSpace storage) {
 		Random rand = new Random();
 		int randomType = rand.nextInt(8);
 		int randomRotation =  rand.nextInt(4);
@@ -209,9 +203,9 @@ public class KnapAlgPent implements Runnable {
 		return storage;
 	}
 	
-	public double getFittest(TruckSpace[] population) {
+	public static double getFittest(TruckSpace[] population) {
 		
-		//Rate the population's fitness, sort and return top (since it will have to highest fitness from HeapSort)
+		//Rate the population's fitness, sort and return top (since it will have to highest fitness from algorithms.HeapSort)
 		for (int i=0; i<population.length; i++) {
 			truckFitness(population[i]);
 		}
@@ -220,7 +214,7 @@ public class KnapAlgPent implements Runnable {
 	}
 	
 	
-	public void algorithm(TruckSpace[] population) {
+	public static void algorithm(TruckSpace[] population) {
 		int iterations = 0;
 		//int counter = 0;
 		
@@ -228,8 +222,10 @@ public class KnapAlgPent implements Runnable {
 		while(getFittest(population) < storage.getVolume()) {
 			System.out.println("Iteration number: " + iterations);
 			System.out.println("L: " + population[0].countL + " P: " + population[0].countP + " T: " + population[0].countT);
+			System.out.println("Net Value: " + (population[0].countL*3 + population[0].countP*4 + population[0].countT*5));
 			System.out.println("FITTEST: " + getFittest(population));
 			System.out.println("Percentage of truck full: " + getFittest(population)/(storage.getVolume())*100);
+			System.out.println("---------------------------------------");
 
 			TruckSpace[] newPopulation = nextTrucks(population);
 			population = newPopulation;
@@ -248,13 +244,19 @@ public class KnapAlgPent implements Runnable {
 			
 			HeapSort.sort(population);
 
-			if(getFittest(population)/(storage.getVolume())*100 >= fillThreshold){
-				Window3DView.setLattice(population[0].getLatice());
-				break;
-			}
 			
 		} 
 	} 
+	
+	private static int valueA = 3;
+	private static int valueB = 4;
+	private static int valueC = 5;
+	
+	public static double truckFitnessValue(TruckSpace storage) {
+		double netValue = storage.countA*valueA + storage.countB*valueB + storage.countC*valueC;
+		storage.setFitness(netValue);
+		return netValue;
+	}
 	
 
 }

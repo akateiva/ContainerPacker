@@ -1,58 +1,53 @@
-import java.awt.*;
+package algorithms;
+
 import java.util.Random;
 
-public class KnapAlg implements Runnable{
+public class KnapAlg {
 	
-	private int mutationRate = 10;
+	private static int mutationRate = 10;
 	
-	private PackageBox option;
+	private static PackageBox option;
 	
-	private TruckSpace storage;
+	private static TruckSpace storage;
 
-	private float fillThreshold;
+	public static void main(String[] args) {
 
-	public KnapAlg(float fillThreshold){
-		this.fillThreshold = fillThreshold;
-	}
-
-	@Override
-	public void run() {
 		storage = new TruckSpace();
 
 		boolean place;
 		int type;
 		int rotation;
 		Random rand = new Random();
-
+		
 		int populationSize = 100;
 		int boxes = 85;
-
+		
 		PackageBox[] optionsUsed;
 		TruckSpace[] population = new TruckSpace[populationSize];
-
+		
 		while(populationSize>0) {
 			storage = new TruckSpace();
-
+			
 			boxes = 85;
 			optionsUsed = new PackageBox[boxes];
-
+			
 			while(boxes>0) {
 				place = true;
 				type = rand.nextInt(3);
 				rotation = rand.nextInt(6);
 				option = new PackageBox(type, rotation);
-
+				
 				//System.out.println(option.getLetter());
-
+				
 				for(int i=0; i<storage.getLatice().length; i++) {
 					for(int j=0; j<storage.getLatice()[i].length; j++) {
-						for(int k=0; k<storage.getLatice()[i][j].length; k++) {
+						for(int k=0; k<storage.getLatice()[i][j].length; k++) { 
 							if(option.fits(storage.getLatice(), k, j, i) && (place == true)) {
 								option.setX(k);
 								option.setY(j);
 								option.setZ(i);
 								option.insert(storage.getLatice());
-
+								
 								if(option.getLetter() == "A") {
 									storage.countA++;
 								}else if(option.getLetter() == "B") {
@@ -60,25 +55,25 @@ public class KnapAlg implements Runnable{
 								}else if(option.getLetter() == "C") {
 									storage.countC++;
 								}
-
+								
 								optionsUsed[optionsUsed.length - boxes] = option;
 								place = false;
 							}
 							//System.out.print(storage.getLatice()[i][j][k]);
 						}
-						//System.out.println();
-					}
 					//System.out.println();
+					}
+				//System.out.println();
 				}
-				boxes--;
-
+				boxes--;	
+				
 			}
 			storage.setOptionsArray(optionsUsed);
 			population[population.length-(populationSize)] = storage;
 			populationSize--;
 		}
-
-
+		
+		
 		for(int i=0; i+1<population.length; i++) {
 			if(population[i] == null || population[i] == population [i+1]) {
 				System.out.println("debug: Problem");
@@ -88,12 +83,13 @@ public class KnapAlg implements Runnable{
 			}
 		}
 
-
-
+		
+		
 		algorithm(population);
+
 	}
 	
-	public double truckFitness(TruckSpace storage) {
+	public static double truckFitnessVolume(TruckSpace storage) {
 		//double maxFitness = storage.getVolume();
 		double currentFitness = 0;
 		
@@ -110,7 +106,9 @@ public class KnapAlg implements Runnable{
 		return currentFitness;
 	}
 	
-	public TruckSpace crossover(TruckSpace t_1, TruckSpace t_2) {
+	
+	
+	public static TruckSpace crossover(TruckSpace t_1, TruckSpace t_2) {
 		PackageBox[] result = new PackageBox[t_1.getOptionsArray().length];
 		
 		Random rand = new Random();
@@ -128,7 +126,7 @@ public class KnapAlg implements Runnable{
 		
 	}
 	
-	public TruckSpace[] nextTrucks(TruckSpace[] population) {
+	public static TruckSpace[] nextTrucks(TruckSpace[] population) {
 		TruckSpace[] nextGen = new TruckSpace[population.length];
 		int counter = 0;
 		
@@ -183,7 +181,7 @@ public class KnapAlg implements Runnable{
 	}
 	
 	
-	public TruckSpace mutate(TruckSpace storage) {
+	public static TruckSpace mutate(TruckSpace storage) {
 		Random rand = new Random();
 		int randomType = rand.nextInt(3);
 		int randomRotation =  rand.nextInt(6);
@@ -198,18 +196,18 @@ public class KnapAlg implements Runnable{
 		return storage;
 	}
 	
-	public double getFittest(TruckSpace[] population) {
+	public static double getFittest(TruckSpace[] population) {
 		
-		//Rate the population's fitness, sort and return top (since it will have to highest fitness from HeapSort)
+		//Rate the population's fitness, sort and return top (since it will have to highest fitness from algorithms.HeapSort)
 		for (int i=0; i<population.length; i++) {
-			truckFitness(population[i]);
+			truckFitnessVolume(population[i]);
 		}
 		HeapSort.sort(population);
 		return population[0].getFitness();
 	}
 	
 	
-	public void algorithm(TruckSpace[] population) {
+	public static void algorithm(TruckSpace[] population) {
 		int iterations = 0;
 		//int counter = 0;
 		
@@ -223,28 +221,36 @@ public class KnapAlg implements Runnable{
 			//System.out.println("Maximum Volume: " + storage.getVolume());
 			//System.out.println("debug: Value of first box used in first truck: " + population[0].getOptionsArray()[0].getValue());
 			//System.out.println("debug: Composition of first truck: ");
-
+			
 			System.out.println("Iteration number: " + iterations);
 			System.out.println("A: " + population[0].countA + " B: " + population[0].countB + " C: " + population[0].countC);
 			System.out.println("FITTEST: " + getFittest(population));
+			//System.out.println("Net Value: " + (population[0].countA*3 + population[0].countB*4 + population[0].countC*5));
 			System.out.println("Percentage of truck full: " + getFittest(population)/(storage.getVolume())*100);
-
+			System.out.println("---------------------------------------");
+			
 			for( int i = 0; i< population.length; i++) {
-				truckFitness(population[i]);
+				truckFitnessVolume(population[i]);
 			}
 			
 			HeapSort.sort(population);
-
-			if(getFittest(population)/(storage.getVolume())*100 >= fillThreshold){
-				Window3DView.setLattice(population[0].getLatice());
-				break;
-			}
+			
 			/*
 			for( int i = 0; i< population.length; i++) {
 				System.out.println(truckFitness(population[i]));
 			} */
 			
 		}
+	}
+	
+	private static int valueA = 3;
+	private static int valueB = 4;
+	private static int valueC = 5;
+	
+	public static double truckFitnessValue(TruckSpace storage) {
+		double netValue = storage.countA*valueA + storage.countB*valueB + storage.countC*valueC;
+		storage.setFitness(netValue);
+		return netValue;
 	}
 	
 

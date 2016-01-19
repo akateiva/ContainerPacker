@@ -1,3 +1,4 @@
+package algorithms;
 
 public class PackageBox {
 	private int xp;
@@ -9,6 +10,7 @@ public class PackageBox {
 	private int height;
 	private int length;
 	private double value;
+	//private int volume;
 	
 	private int[][][] latice;
 	
@@ -166,12 +168,14 @@ public class PackageBox {
 	public int getLength() {
 		return length;
 	}
-	
+	public int getVolume() {
+		return length*width*height;
+	}
 
 	public double getValue() {
 		return value;
 	}
-	public double valueDensity() {
+	public double getValueDensity() {
 		double volume = length*width*height;
 		return value/volume;
 	}

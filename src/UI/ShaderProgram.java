@@ -1,8 +1,6 @@
-/**
+package UI; /**
  * Created by akateiva on 06/01/16.
  */
-import java.nio.file.Files;
-import java.nio.file.*;
 
 import static org.lwjgl.opengl.GL20.*;
 

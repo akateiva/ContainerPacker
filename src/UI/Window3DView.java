@@ -1,4 +1,5 @@
-import com.sun.org.apache.bcel.internal.generic.POP;
+package UI;
+
 import org.lwjgl.*;
 
 import org.lwjgl.glfw.*;
@@ -117,10 +118,10 @@ public class Window3DView{
         System.out.println(POPULATION_SIZE);
         System.out.println(THRESHOLD);
         if(algParameters.containsKey("pentomino")){
-            //Start the KnapAlgPent
+            //Start the algorithms.KnapAlgPent
 
         }else{
-            //Start the KnapAlg
+            //Start the algorithms.KnapAlg
 
         }
     }
@@ -306,7 +307,7 @@ public class Window3DView{
         glClearColor(0.6f, 0.6f, 0.6f, 0.0f);
 
         //Load the default frag and vert shaders
-        shaderProgram = new ShaderProgram("vertshader", "fragshader");
+        shaderProgram = new ShaderProgram("UI/vertshader", "UI/fragshader");
 
         //Get the location of uniform "color" in the shader
         int colorUniform = GL20.glGetUniformLocation(shaderProgram.getID(), "color");
