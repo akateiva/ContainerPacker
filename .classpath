@@ -11,5 +11,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/forms_rt"/>
+	<classpathentry kind="lib" path="D:/UM/Maastricht/Project13/ContainerPacker/dependencies/forms_rt.jar"/>
 	<classpathentry kind="output" path="out/production/ContainerPacker"/>
 </classpath>
