@@ -10,19 +10,23 @@ public class KnapAlg implements Runnable{
 
 	private PackageBox option;
 	private TruckSpace storage;
-	private int valueA = 3;
-	private int valueB = 4;
-	private int valueC = 5;
+	private int valueA;
+	private int valueB;
+	private int valueC;
 	private boolean place;
 	private int type;
 	private int rotation;
 	private Random rand = new Random();
 	private int boxes = 85;
 
-	public KnapAlg(int populationSize, int mutationRate, int threshold) {
+	public KnapAlg(int populationSize, int mutationRate, int threshold, int valueA, int valueB, int valueC) {
 		this.populationSize = populationSize;
 		this.mutationRate = mutationRate;
 		this.threshold = threshold;
+		this.valueA = valueA;
+		this.valueB = valueB;
+		this.valueC = valueC;
+
 	}
 
 	public void run() {
@@ -223,7 +227,18 @@ public class KnapAlg implements Runnable{
 			TruckSpace[] newPopulation = nextTrucks(population);
 			population = newPopulation;
 			iterations++;
-			
+
+			for( int i = 0; i< population.length; i++) {
+				truckFitnessVolume(population[i]);
+			}
+
+			HeapSort.sort(population);
+
+			/*
+			for( int i = 0; i< population.length; i++) {
+				System.out.println(truckFitness(population[i]));
+			} */
+
 			//System.out.println("Truck Population Size: " + population.length);
 			//System.out.println("Maximum Volume: " + storage.getVolume());
 			//System.out.println("debug: Value of first box used in first truck: " + population[0].getOptionsArray()[0].getValue());
@@ -236,16 +251,7 @@ public class KnapAlg implements Runnable{
 			System.out.println("Percentage of truck full: " + getFittest(population)/(storage.getVolume())*100);
 			System.out.println("---------------------------------------");
 			
-			for( int i = 0; i< population.length; i++) {
-				truckFitnessVolume(population[i]);
-			}
-			
-			HeapSort.sort(population);
-			
-			/*
-			for( int i = 0; i< population.length; i++) {
-				System.out.println(truckFitness(population[i]));
-			} */
+
 			
 		}
 	}

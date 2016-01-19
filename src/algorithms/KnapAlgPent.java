@@ -14,10 +14,14 @@ public class KnapAlgPent implements Runnable{
 	private int valueB = 4;
 	private int valueC = 5;
 
-	public KnapAlgPent(int populationSize, int mutationRate, int threshold) {
+	public KnapAlgPent(int populationSize, int mutationRate, int threshold, int valueA, int valueB, int valueC) {
 		this.populationSize = populationSize;
 		this.mutationRate = mutationRate;
 		this.threshold = threshold;
+		this.valueA = valueA;
+		this.valueB = valueB;
+		this.valueC = valueC;
+
 	}
 
 	public void run() {
@@ -230,6 +234,13 @@ public class KnapAlgPent implements Runnable{
 		
 		
 		while(getFittest(population) < storage.getVolume()) {
+			
+			for( int i = 0; i< population.length; i++) {
+				truckFitness(population[i]);
+			}
+			
+			HeapSort.sort(population);
+
 			System.out.println("Iteration number: " + iterations);
 			System.out.println("L: " + population[0].countL + " P: " + population[0].countP + " T: " + population[0].countT);
 			System.out.println("Net Value: " + (population[0].countL*3 + population[0].countP*4 + population[0].countT*5));
@@ -240,21 +251,13 @@ public class KnapAlgPent implements Runnable{
 			TruckSpace[] newPopulation = nextTrucks(population);
 			population = newPopulation;
 			iterations++;
-			
+
 			//System.out.println("Truck Population Size: " + population.length);
 			//System.out.println("Maximum Volume: " + storage.getVolume());
 			//System.out.println("debug: Value of first box used in first truck: " + population[0].getOptionsArray()[0].getValue());
 			//System.out.println("debug: Composition of first truck: ");
-			
-			
-			
-			for( int i = 0; i< population.length; i++) {
-				truckFitness(population[i]);
-			}
-			
-			HeapSort.sort(population);
 
-			
+
 		} 
 	}
 	

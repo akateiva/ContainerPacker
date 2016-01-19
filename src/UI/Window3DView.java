@@ -117,14 +117,30 @@ public class Window3DView{
         System.out.println(algParameters.toString());
     }
     public static void startAlgorithm(Hashtable algParameters){
+        System.out.println("Launching algorithm. algParameters: ");
+        System.out.println(algParameters.toString());
         int POPULATION_SIZE = Integer.parseInt(algParameters.getOrDefault("population_size", "100").toString());
         int MUTATION_RATE = Integer.parseInt(algParameters.getOrDefault("mutation_rate", "1").toString());
         int THRESHOLD = Integer.parseInt(algParameters.getOrDefault("threshold", "85").toString());
 
         if(algParameters.containsKey("pentomino")){
-            new Thread(new KnapAlgPent(POPULATION_SIZE, MUTATION_RATE, THRESHOLD)).start();
+            new Thread(new KnapAlgPent(
+                    Integer.parseInt(algParameters.getOrDefault("population_size", "100").toString()),
+                    Integer.parseInt(algParameters.getOrDefault("mutation_rate", "1").toString()),
+                    Integer.parseInt(algParameters.getOrDefault("threshold", "85").toString()),
+                    Integer.parseInt(algParameters.getOrDefault("value_a", "3").toString()),
+                    Integer.parseInt(algParameters.getOrDefault("value_b", "4").toString()),
+                    Integer.parseInt(algParameters.getOrDefault("value_c", "5").toString())
+                    )).start();
         }else{
-            new Thread(new KnapAlg(POPULATION_SIZE, MUTATION_RATE, THRESHOLD)).start();
+            new Thread(new KnapAlg(
+                    Integer.parseInt(algParameters.getOrDefault("population_size", "100").toString()),
+                    Integer.parseInt(algParameters.getOrDefault("mutation_rate", "1").toString()),
+                    Integer.parseInt(algParameters.getOrDefault("threshold", "85").toString()),
+                    Integer.parseInt(algParameters.getOrDefault("value_a", "3").toString()),
+                    Integer.parseInt(algParameters.getOrDefault("value_b", "4").toString()),
+                    Integer.parseInt(algParameters.getOrDefault("value_c", "5").toString())
+            )).start();
         }
     }
 
