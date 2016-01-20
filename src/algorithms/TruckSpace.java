@@ -1,5 +1,7 @@
 package algorithms;
 
+import org.joml.Vector3f;
+
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
@@ -24,7 +26,9 @@ public class TruckSpace {
 	PackagePentomino[] pentOptionsUsed;
 	
 	private int[][][] latice;
-	
+
+	private Vector3f[][][] colorMask;
+
 	public double getFitness() {
 		return fitness;
 	}
@@ -55,6 +59,7 @@ public class TruckSpace {
 		this.height = height;
 		
 		latice = new int[width][height][length];
+		colorMask = new Vector3f[width][height][length];
 	}
 	
 	public int getWidth() {
@@ -85,7 +90,14 @@ public class TruckSpace {
 	public void setLatice(int[][][] latice) {
 		this.latice = latice;
 	}
-	
+	public Vector3f[][][] getColorMask() {
+		return colorMask;
+	}
+
+	public void setColorMask(Vector3f[][][] colorMask) {
+		this.colorMask = colorMask;
+	}
+
 	public void draw(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g;
 		Rectangle2D.Double area = new Rectangle2D.Double(xp,yp,width,height);

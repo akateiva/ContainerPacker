@@ -3,6 +3,7 @@ package algorithms;
 import java.util.Random;
 
 import UI.Window3DView;
+import org.joml.Vector3f;
 
 public class KnapAlg implements Runnable{
 	
@@ -177,6 +178,7 @@ public class KnapAlg implements Runnable{
 										currentBox.setY(j);
 										currentBox.setZ(i);
 										currentBox.insert(nextGen[n].getLatice());
+										currentBox.insertColorMask(nextGen[n].getColorMask(), new Vector3f(rand.nextFloat(), rand.nextFloat(), rand.nextFloat()));
 										place = false;
 										
 										if(currentBox.getLetter() == "A") {
@@ -259,12 +261,14 @@ public class KnapAlg implements Runnable{
 			System.out.println("---------------------------------------");
 			
 			if (getFittest(population)/(storage.getVolume())*100 > threshold) {
+				Window3DView.setLattice(population[0].getLatice());
+				Window3DView.setContainerColorMask(population[0].getColorMask());
 				break;
 			}
 
 			
 		}
-		Window3DView.setLattice(population[0].getLatice());
+
 	}
 
 	

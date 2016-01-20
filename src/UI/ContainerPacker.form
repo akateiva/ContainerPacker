@@ -297,22 +297,6 @@
               </component>
             </children>
           </grid>
-          <grid id="229ce" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
-            <constraints>
-              <tabbedpane title="Greedy"/>
-            </constraints>
-            <properties/>
-            <border type="none"/>
-            <children>
-              <component id="d74b9" class="javax.swing.JLabel">
-                <constraints/>
-                <properties>
-                  <font size="26"/>
-                  <text value="when I figure out how it works i'll update this panel"/>
-                </properties>
-              </component>
-            </children>
-          </grid>
         </children>
       </tabbedpane>
       <scrollpane id="483a4">

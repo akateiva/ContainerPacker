@@ -34,6 +34,9 @@ public class Window3DView{
     static private int CONTAINER_LENGTH = 33;
     static private int[][][] CONTAINER_LATTICE = {};
 
+
+    static private Vector3f[][][] CONTAINER_COLOR_MASK = {};
+
     //Camera information
     static private Vector3f CAMERA_POS = new Vector3f(0,0,0); //Coordinates of the camera view target
     static private Vector2f CAMERA_ROT = new Vector2f(); //Angles for the camera ( YAW, PITCH )
@@ -158,6 +161,13 @@ public class Window3DView{
         CONTAINER_LATTICE = lattice;
     }
 
+    /**
+     * Set color data for a container
+     * @param containerColorMask
+     */
+    public static void setContainerColorMask(Vector3f containerColorMask[][][]) {
+        CONTAINER_COLOR_MASK = containerColorMask;
+    }
     /**
      * Draw a cube on the screen at a position.
      * @param x
@@ -385,6 +395,7 @@ public class Window3DView{
                         if(CONTAINER_LATTICE[i][j][k] != 0){
                             //NOTE: Kamil's algorithm operates in a different spatial axis arrangement
                             //therefore Y and Z axles have to be swapped
+                            GL20.glUniform4f(colorUniform, CONTAINER_COLOR_MASK[i][j][k].x, CONTAINER_COLOR_MASK[i][j][k].y, CONTAINER_COLOR_MASK[i][j][k].z, 1.0f);
                             drawCube(i - (CONTAINER_WIDTH/2), k - (CONTAINER_LENGTH/2), j);
                         }
                     }

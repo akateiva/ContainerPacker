@@ -3,6 +3,7 @@ package algorithms;
 import java.util.Random;
 
 import UI.Window3DView;
+import org.joml.Vector3f;
 
 public class KnapAlgPent implements Runnable{
 	
@@ -19,7 +20,7 @@ public class KnapAlgPent implements Runnable{
 	private int containerL;
 	private int containerW;
 	private int containerH;
-
+	private Random rand = new Random();
 
 	public KnapAlgPent(int populationSize, int mutationRate, int threshold, int valueA, int valueB, int valueC, int containerL, int containerW, int containerH) {
 		this.populationSize = populationSize;
@@ -185,7 +186,9 @@ public class KnapAlgPent implements Runnable{
 										currentBox.setX(k);
 										currentBox.setY(j);
 										currentBox.setZ(i);
-										currentBox.insert(nextGen[n].getLatice());
+										currentBox.insert(nextGen[n].getLatice());										currentBox.insertColorMask(nextGen[n].getColorMask(), new Vector3f(rand.nextFloat(), rand.nextFloat(), rand.nextFloat()));
+										currentBox.insertColorMask(nextGen[n].getColorMask(), new Vector3f(rand.nextFloat(), rand.nextFloat(), rand.nextFloat()));
+
 										place = false;
 										
 										if(currentBox.getLetter() == "L") {
@@ -266,11 +269,13 @@ public class KnapAlgPent implements Runnable{
 			//System.out.println("debug: Value of first box used in first truck: " + population[0].getOptionsArray()[0].getValue());
 			//System.out.println("debug: Composition of first truck: ");
 			if (getFittest(population)/(storage.getVolume())*100 > threshold) {
+				Window3DView.setLattice(population[0].getLatice());
+				Window3DView.setContainerColorMask(population[0].getColorMask());
 				break;
 			}
 
 		}
-		Window3DView.setLattice(population[0].getLatice());
+
 
 	}
 	

@@ -1,5 +1,7 @@
 package algorithms;
 
+import org.joml.Vector3f;
+
 public class PackageBox {
 	private int xp;
 	private int yp;
@@ -226,6 +228,24 @@ public class PackageBox {
 						}
 						catch(Exception e){
 	
+						}
+					}
+				}
+			}
+		}
+	}
+	public void insertColorMask(Vector3f[][][] colormask, Vector3f color){
+		for(int k = 0; k < latice.length; k++) {
+			for(int i = 0; i < latice[k].length; i++){
+				for(int j = 0; j < latice[k][i].length; j++){
+					if(zp + i < colormask.length || yp + i < colormask[k].length || xp + j < colormask[k][i].length){
+						try{
+							if(latice[k][i][j] != 0){
+								colormask[zp+k][yp+i][xp+j] = color;
+							}
+						}
+						catch(Exception e){
+
 						}
 					}
 				}
