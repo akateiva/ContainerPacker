@@ -6,7 +6,8 @@
       <element id="directory" name="META-INF">
         <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/ContainerPacker/META-INF/MANIFEST.MF" />
       </element>
-      <element id="library" level="project" name="lwjgl" />
+      <element id="dir-copy" path="$PROJECT_DIR$/dependencies/lwjgl/native" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/dependencies/lwjgl/jar/lwjgl.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
