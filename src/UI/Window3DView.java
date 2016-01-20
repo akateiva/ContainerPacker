@@ -32,7 +32,7 @@ public class Window3DView{
     static private int CONTAINER_WIDTH = 5;
     static private int CONTAINER_HEIGHT = 8;
     static private int CONTAINER_LENGTH = 33;
-    static private int[][][] CONTAINER_LATTICE = {};
+    static private int[][][] CONTAINER_LATTICE = {}; 
 
     //Camera information
     static private Vector3f CAMERA_POS = new Vector3f(0,0,0); //Coordinates of the camera view target
