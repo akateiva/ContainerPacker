@@ -130,7 +130,10 @@ public class Window3DView{
                     Integer.parseInt(algParameters.getOrDefault("threshold", "85").toString()),
                     Integer.parseInt(algParameters.getOrDefault("value_a", "3").toString()),
                     Integer.parseInt(algParameters.getOrDefault("value_b", "4").toString()),
-                    Integer.parseInt(algParameters.getOrDefault("value_c", "5").toString())
+                    Integer.parseInt(algParameters.getOrDefault("value_c", "5").toString()),
+                    Integer.parseInt(algParameters.getOrDefault("container_l", "11").toString()),
+                    Integer.parseInt(algParameters.getOrDefault("container_w", "5").toString()),
+                    Integer.parseInt(algParameters.getOrDefault("container_h", "8").toString())
                     )).start();
         }else{
             new Thread(new KnapAlg(
@@ -139,7 +142,10 @@ public class Window3DView{
                     Integer.parseInt(algParameters.getOrDefault("threshold", "85").toString()),
                     Integer.parseInt(algParameters.getOrDefault("value_a", "3").toString()),
                     Integer.parseInt(algParameters.getOrDefault("value_b", "4").toString()),
-                    Integer.parseInt(algParameters.getOrDefault("value_c", "5").toString())
+                    Integer.parseInt(algParameters.getOrDefault("value_c", "5").toString()),
+                    Integer.parseInt(algParameters.getOrDefault("container_l", "11").toString()),
+                    Integer.parseInt(algParameters.getOrDefault("container_w", "5").toString()),
+                    Integer.parseInt(algParameters.getOrDefault("container_h", "8").toString())
             )).start();
         }
     }
@@ -238,7 +244,7 @@ public class Window3DView{
 
 
         // Create the window
-        window = glfwCreateWindow(WIDTH, HEIGHT, "BALLSAX!", NULL, NULL);
+        window = glfwCreateWindow(WIDTH, HEIGHT, "", NULL, NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 

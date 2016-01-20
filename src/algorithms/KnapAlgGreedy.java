@@ -1,5 +1,5 @@
 package algorithms;
-
+/*
 import java.util.Random;
 
 public class KnapAlgGreedy implements Runnable{
@@ -68,3 +68,4 @@ public class KnapAlgGreedy implements Runnable{
 		System.out.println("C: " + cntrC/parcel2.getValue());
 	}
 }
+*/

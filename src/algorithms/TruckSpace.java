@@ -47,12 +47,12 @@ public class TruckSpace {
 		this.pentOptionsUsed = optionsUsed;
 	}
 	
-	public TruckSpace() {
+	public TruckSpace(int length, int width, int height) {
 		xp = 100;
 		yp = 100;
-		length = 11;
-		width = 5;
-		height = 8;
+		this.length = length;
+		this.width = width;
+		this.height = height;
 		
 		latice = new int[width][height][length];
 	}

@@ -20,26 +20,31 @@ public class KnapAlg implements Runnable{
 	private int rotation;
 	private Random rand = new Random();
 	private int boxes = 85;
+	private int containerL;
+	private int containerW;
+	private int containerH;
 
-	public KnapAlg(int populationSize, int mutationRate, int threshold, int valueA, int valueB, int valueC) {
+	public KnapAlg(int populationSize, int mutationRate, int threshold, int valueA, int valueB, int valueC, int containerL, int containerW, int containerH) {
 		this.populationSize = populationSize;
 		this.mutationRate = mutationRate;
 		this.threshold = threshold;
 		this.valueA = valueA;
 		this.valueB = valueB;
 		this.valueC = valueC;
-
+		this.containerL = containerL;
+		this.containerW = containerW;
+		this.containerH = containerH;
 	}
 
 	public void run() {
 
-		storage = new TruckSpace();
+		storage = new TruckSpace(containerL, containerW, containerH);
 		
 		PackageBox[] optionsUsed;
 		TruckSpace[] population = new TruckSpace[populationSize];
 		
 		while(populationSize>0) {
-			storage = new TruckSpace();
+			storage = new TruckSpace(containerL, containerW, containerH);
 			
 			boxes = 85;
 			optionsUsed = new PackageBox[boxes];
@@ -133,7 +138,7 @@ public class KnapAlg implements Runnable{
 				result[i] = t_2.getOptionsArray()[i];
 			}
 		}
-		TruckSpace newTruck = new TruckSpace();
+		TruckSpace newTruck = new TruckSpace(containerL, containerW, containerH);
 		newTruck.setOptionsArray(result);
 		return newTruck;
 		
@@ -249,7 +254,7 @@ public class KnapAlg implements Runnable{
 			System.out.println("Iteration number: " + iterations);
 			System.out.println("A: " + population[0].countA + " B: " + population[0].countB + " C: " + population[0].countC);
 			//System.out.println("FITTEST: " + getFittest(population));
-			System.out.println("Net Value: " + (population[0].countA*3 + population[0].countB*4 + population[0].countC*5));
+			System.out.println("Net Value: " + (population[0].countA*valueA + population[0].countB*valueB + population[0].countC*valueC));
 			System.out.println("Percentage of truck full: " + getFittest(population)/(storage.getVolume())*100);
 			System.out.println("---------------------------------------");
 			

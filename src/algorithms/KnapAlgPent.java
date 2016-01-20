@@ -16,19 +16,26 @@ public class KnapAlgPent implements Runnable{
 	private int valueB = 4;
 	private int valueC = 5;
 
-	public KnapAlgPent(int populationSize, int mutationRate, int threshold, int valueA, int valueB, int valueC) {
+	private int containerL;
+	private int containerW;
+	private int containerH;
+
+
+	public KnapAlgPent(int populationSize, int mutationRate, int threshold, int valueA, int valueB, int valueC, int containerL, int containerW, int containerH) {
 		this.populationSize = populationSize;
 		this.mutationRate = mutationRate;
 		this.threshold = threshold;
 		this.valueA = valueA;
 		this.valueB = valueB;
 		this.valueC = valueC;
-
+		this.containerL = containerL;
+		this.containerW = containerW;
+		this.containerH = containerH;
 	}
 
 	public void run() {
 
-		storage = new TruckSpace();
+		storage = new TruckSpace(containerL, containerW, containerH);
 
 		boolean place;
 		int type;
@@ -40,7 +47,7 @@ public class KnapAlgPent implements Runnable{
 		TruckSpace[] population = new TruckSpace[populationSize];
 		
 		while(populationSize>0) {
-			storage = new TruckSpace();
+			storage = new TruckSpace(containerL, containerW, containerH);
 			
 			boxes = 264;
 			optionsUsed = new PackagePentomino[boxes];
@@ -140,7 +147,7 @@ public class KnapAlgPent implements Runnable{
 				result[i] = t_2.getPentOptionsArray()[i];
 			}
 		}
-		TruckSpace newTruck = new TruckSpace();
+		TruckSpace newTruck = new TruckSpace(containerL, containerW, containerH);
 		newTruck.setPentOptionsArray(result);
 		return newTruck;
 		
