@@ -1,0 +1,43 @@
+The application can be launched by simply running the jar on Windows machines by running the jar
+ex:
+java -jar ContainerPacker.jar
+
+Due to compatibility issues with LWJGL and AWT/Swing on Mac OS X, the program has to be launched
+without the AWT/Swing UI by using command line parameters.
+ex:
+java -XstartOnFirstThread -jar ContainerPacker.jar -no-swing
+
+Command line parameters:
+-no-swing
+    Launch the application without AWT/Swing dialog. ( Don't forget to set algorithm parameters with -a )
+-no-glfw
+    Launch the application without GLFW windows.
+-scalefix
+    Mac OS X devices with Retina screens show viewport scaling problems. Use this in the case of a broken viewport.
+-a [ALGORITHM_PARAMETER] [PARAMETER_VALUE]
+    Set the algorithm parameter to some value
+
+Algorithm parameters:
+    -a pentomino true
+        Run the pentomino problem. If not specified the box problem will run.
+    -a POPULATION_SIZE [int]
+        Set the initial population size for the genetic algorithm.
+    -a THRESHOLD [int 0-100]
+        Set the fullness threshold for the simulation
+    -a VALUE_A [int]
+        Value of the A box ( or the L pentomino )
+    -a VALUE_B [int]
+        Value of the B box ( or the P pentomino )
+    -a VALUE_A [int]
+        Value of the C box ( or the T pentomino )
+    -a CONTAINER_L [int]
+        Container length
+    -a CONTAINER_W [int]
+        Container width
+    -a CONTAINER_H [int]
+        Container heigth
+
+EXAMPLE:
+The following command can be executed to launch an algorithm without using the UI:
+java -jar ContainerPacker.jar -a POPULATION_SIZE 100 -a THRESHOLD 95
+    -a VALUE_A 3 -a VALUE_B 4 -a VALUE_C 5 -a CONTAINER_L 10 -a CONTAINER_W 3 -a CONTAINER_H 3
