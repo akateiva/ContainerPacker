@@ -297,10 +297,10 @@ public class Window3DView{
                     CAMERA_ROT.y -= 0.5f * (MOUSE_LASTPOS.y - ypos);
                 }
                 if(MOUSE_RIGHT_DOWN){
-                    CAMERA_POS.x += (CAMERA_FORWARD.x * ((float)(0.1f * (MOUSE_LASTPOS.y - ypos))));
-                    CAMERA_POS.y += (CAMERA_FORWARD.y * ((float)(0.1f * (MOUSE_LASTPOS.y - ypos))));
-                    //CAMERA_POS.y += 0.1f * (MOUSE_LASTPOS.x - xpos);
-                    //CAMERA_POS.x += 0.1f * (MOUSE_LASTPOS.y - ypos);
+                    //TranCAMERA_POS.x += (CAMERA_FORWARD.x * ((float)(0.1f * (MOUSE_LASTPOS.y - ypos))));
+                    //CAMERA_POS.y += (CAMERA_FORWARD.y * ((float)(0.1f * (MOUSE_LASTPOS.y - ypos))));
+                    CAMERA_POS.y += 0.1f * (MOUSE_LASTPOS.x - xpos);
+                    CAMERA_POS.x += 0.1f * (MOUSE_LASTPOS.y - ypos);
                 }
 
 
